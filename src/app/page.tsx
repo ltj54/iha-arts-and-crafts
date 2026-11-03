@@ -1,146 +1,127 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 const contactEmail = "iha.amaza@gmail.com";
-
-function Arrow() {
-  return <span aria-hidden="true">↗</span>;
-}
+const directionsUrl = "https://www.google.com/maps/dir/?api=1&destination=Jegerveien%204B%2C%200777%20Oslo%2C%20Norway";
+const sections = {
+  top: "#top",
+  works: "#arbeider",
+  about: "#om",
+  contact: "#kontakt",
+} as const;
+const copy = {
+  no: {
+    preview: "Nettsiden er under arbeid · Verk vises etter godkjenning",
+    top: "IHA Arts and Crafts – til toppen", menu: "Hovedmeny", works: "Arbeider", about: "Om IHA", contact: "Kontakt",
+    oslo: "Oslo, Norge", disciplines: "Maleri / treskulptur", heroFirst: "Maleri.", heroSecond: "Tre.", heroThird: " Oslo.",
+    intro: "IHA Arts and Crafts i Oslo arbeider med maleri og kjøp og salg av treskulpturer.", toWorks: "Til arbeidene",
+    worksFirst: "Maleri &", worksSecond: "treskulptur.", worksText: "Bilder av malerier og treskulpturer legges inn når Iha har valgt og godkjent dem.",
+    painting: "Maleri", sculpture: "Treskulptur", photosSoon: "Bilder kommer",
+    aboutText: "IHA Arts and Crafts er et enkeltpersonforetak drevet av Hamisi Kaingu Iha. Virksomheten omfatter malekunst og kjøp og salg av treskulpturer.",
+    writeTo: "Skriv til", contactText: "Spør om maleri, treskulpturer eller IHA Arts and Crafts.",
+    form: "Meldingsskjema", yourMessage: "Din melding", name: "Navn", nameHint: "Hva heter du?", email: "E-post", emailHint: "din@epost.no",
+    message: "Melding", messageHint: "Skriv meldingen din her …", send: "Send melding",
+    formNote: "Skjemaet åpnes for innsending når kontakttjenesten er klar. Bruk e-postadressen ved siden av i mellomtiden.",
+    org: "Org.nr.", backToTop: "Til toppen",
+    findUs: "Finn fram", businessAddress: "Forretningsadresse", directions: "Åpne veibeskrivelse i Google Maps",
+  },
+  en: {
+    preview: "Website in progress · Artwork will appear after approval",
+    top: "IHA Arts and Crafts – back to top", menu: "Main navigation", works: "Works", about: "About IHA", contact: "Contact",
+    oslo: "Oslo, Norway", disciplines: "Painting / wood sculpture", heroFirst: "Painting.", heroSecond: "Wood.", heroThird: " Oslo.",
+    intro: "IHA Arts and Crafts in Oslo works with painting and the buying and selling of wood sculptures.", toWorks: "Explore the works",
+    worksFirst: "Painting &", worksSecond: "wood sculpture.", worksText: "Photographs of paintings and wood sculptures will be added once Iha has selected and approved them.",
+    painting: "Painting", sculpture: "Wood sculpture", photosSoon: "Photos to come",
+    aboutText: "IHA Arts and Crafts is a sole proprietorship run by Hamisi Kaingu Iha. Its activities are painting and the buying and selling of wood sculptures.",
+    writeTo: "Write to", contactText: "Ask about paintings, wood sculptures or IHA Arts and Crafts.",
+    form: "Contact form", yourMessage: "Your message", name: "Name", nameHint: "Your name", email: "Email", emailHint: "you@example.com",
+    message: "Message", messageHint: "Write your message here …", send: "Send message",
+    formNote: "The form will accept messages once the contact service is ready. You can use the email address alongside it for now.",
+    org: "Org. no.", backToTop: "Back to top",
+    findUs: "Find us", businessAddress: "Business address", directions: "Open directions in Google Maps",
+  },
+} as const;
 
 export default function Home() {
-  return (
-    <main>
-      <div className={styles.previewNote}>
-        Første nettsideskisse · Bilder, verkstitler og tekster avklares før publisering
-      </div>
+  const [language, setLanguage] = useState<"no" | "en">("no");
+  const t = copy[language];
 
+  useEffect(() => {
+    document.documentElement.lang = language === "no" ? "nb" : "en";
+  }, [language]);
+
+  return (
+    <main id="top">
+      <div className={styles.preview}>{t.preview}</div>
       <header className={styles.header}>
-        <a className={styles.brand} href="#top" aria-label="IHA Arts and Crafts – til toppen">
-          <span>IHA</span>
-          <span>Arts &amp; Crafts</span>
-        </a>
-        <nav aria-label="Hovedmeny">
-          <a href="#arbeider">Arbeider</a>
-          <a href="#om">Om</a>
-          <a href="#kontakt">Kontakt</a>
-        </nav>
+        <a className={styles.brand} href={sections.top} aria-label={t.top}>IHA<span>.</span><small>Arts and<br />Crafts</small></a>
+        <div className={styles.headerActions}>
+          <nav aria-label={t.menu}><a href={sections.works}>{t.works}</a><a href={sections.about}>{t.about}</a><a href={sections.contact}>{t.contact} ↗</a></nav>
+          <fieldset className={styles.language}>
+            <legend className={styles.visuallyHidden}>Language / Språk</legend>
+            <button type="button" onClick={() => setLanguage("no")} aria-pressed={language === "no"}>NO</button>
+            <span aria-hidden="true">/</span>
+            <button type="button" onClick={() => setLanguage("en")} aria-pressed={language === "en"}>EN</button>
+          </fieldset>
+        </div>
       </header>
 
-      <section className={styles.hero} id="top">
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Maleri · Treskulptur · Oslo</p>
-          <h1>Kunst med spor av hånd og materiale.</h1>
-          <p className={styles.lead}>
-            Et sted for å oppdage maleri og treskulptur – og for å spørre om arbeider som er
-            tilgjengelige.
-          </p>
-          <a className={styles.textLink} href="#arbeider">
-            Se retningen for galleriet <span aria-hidden="true">↓</span>
-          </a>
+      <section className={styles.hero} aria-labelledby="hero-title">
+        <div className={styles.topline}><span>{t.oslo}</span><span>{t.disciplines}</span></div>
+        <h1 id="hero-title">{t.heroFirst}<br /><em>{t.heroSecond}</em>{t.heroThird}</h1>
+        <div className={styles.heroBottom}>
+          <p>{t.intro}</p>
+          <a href={sections.works}>{t.toWorks} ↘</a>
         </div>
-
-        <div className={styles.heroComposition} aria-label="Visuell plassholder for utvalgte kunstverk">
-          <div className={styles.canvasOne} aria-hidden="true" />
-          <div className={styles.canvasTwo} aria-hidden="true" />
-          <div className={styles.sculpture} aria-hidden="true" />
-          <p>Utvalgte verk får hovedplassen her.</p>
-        </div>
+        <div className={styles.stamp} aria-hidden="true">IHA<br />A&amp;C</div>
       </section>
 
-      <section className={styles.gallery} id="arbeider" aria-labelledby="gallery-title">
-        <div className={styles.sectionIntro}>
-          <p className={styles.sectionNumber}>01</p>
-          <div>
-            <h2 id="gallery-title">Arbeider</h2>
-            <p>
-              En enkel galleristruktur som lar hvert arbeid få ro. Når bildene er klare, kan hvert
-              verk vises med tittel, materiale, mål og tilgjengelighet.
-            </p>
-          </div>
+      <section className={styles.works} id="arbeider" aria-labelledby="works-title">
+        <div className={styles.sectionHead}>
+          <p>{t.works}</p>
+          <h2 id="works-title">{t.worksFirst}<br /><em>{t.worksSecond}</em></h2>
+          <p>{t.worksText}</p>
         </div>
-
-        <div className={styles.workGrid}>
-          <article className={`${styles.workCard} ${styles.paintingCard}`}>
-            <div className={styles.paintingStudy} aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
-            <div className={styles.workMeta}>
-              <h3>Maleri</h3>
-              <p>Originalarbeider presentert uten støy rundt.</p>
-            </div>
-          </article>
-
-          <article className={`${styles.workCard} ${styles.woodCard}`}>
-            <div className={styles.woodStudy} aria-hidden="true">
-              <span />
-            </div>
-            <div className={styles.workMeta}>
-              <h3>Treskulptur</h3>
-              <p>Form, overflate og detalj vist fra flere vinkler.</p>
-            </div>
-          </article>
-
-          <article className={`${styles.workCard} ${styles.detailCard}`}>
-            <div>
-              <p className={styles.smallLabel}>For hvert arbeid</p>
-              <h3>Det besøkende faktisk trenger å vite.</h3>
-            </div>
-            <ul>
-              <li>Tittel og materiale</li>
-              <li>Størrelse og årstall</li>
-              <li>Pris eller forespørsel</li>
-              <li>Henting eller levering</li>
-            </ul>
-          </article>
+        <div className={styles.slots}>
+          <div className={styles.slot}><span aria-hidden="true">✳</span><div><h3>{t.painting}</h3><p>{t.photosSoon}</p></div></div>
+          <div className={styles.slot}><span aria-hidden="true">↗</span><div><h3>{t.sculpture}</h3><p>{t.photosSoon}</p></div></div>
         </div>
       </section>
 
       <section className={styles.about} id="om" aria-labelledby="about-title">
-        <p className={styles.sectionNumber}>02</p>
-        <div className={styles.aboutTitle}>
-          <p className={styles.eyebrow}>IHA Arts and Crafts</p>
-          <h2 id="about-title">Et lite kunststed i Oslo.</h2>
-        </div>
-        <div className={styles.aboutCopy}>
-          <p>
-            IHA Arts and Crafts arbeider med maleri og kjøp og salg av treskulpturer. Nettsiden kan
-            bli et oversiktlig sted for å presentere arbeidene, fortelle mer om bakgrunnen deres og
-            gjøre det enkelt å ta kontakt.
-          </p>
-          <p>
-            Før siden ferdigstilles, velges bilder og verk sammen med Hamisi. Da kan uttrykket
-            bygges rundt den faktiske kunsten – ikke rundt en ferdig mal.
-          </p>
+        <p className={styles.label}>{t.about}</p>
+        <div><h2 id="about-title">Hamisi<br />Kaingu <em>Iha.</em></h2>
+          <p>{t.aboutText}</p>
         </div>
       </section>
 
       <section className={styles.contact} id="kontakt" aria-labelledby="contact-title">
-        <div>
-          <p className={styles.sectionNumber}>03</p>
-          <p className={styles.eyebrow}>Kontakt</p>
-          <h2 id="contact-title">Spør om et arbeid.</h2>
+        <div className={styles.contactIntro}>
+          <p className={styles.label}>{t.contact}</p>
+          <h2 id="contact-title">{t.writeTo}<br /><em>Hamisi.</em></h2>
+          <p>{t.contactText}</p>
+          <a href={`mailto:${contactEmail}`}>{contactEmail} ↗</a>
         </div>
-        <div className={styles.contactDetails}>
-          <p>
-            For spørsmål om maleri, treskulpturer eller tilgjengelige arbeider kan du kontakte
-            Hamisi direkte.
-          </p>
-          <a className={styles.contactButton} href={`mailto:${contactEmail}`}>
-            Send e-post <Arrow />
-          </a>
-          <div className={styles.directContact}>
-            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-            <a href="tel:+4793873400">+47 938 73 400</a>
-          </div>
-        </div>
+        <form className={styles.form} aria-label={t.form}>
+          <div className={styles.formHead}><span>{t.yourMessage}</span><span>↘</span></div>
+          <label htmlFor="name">{t.name}</label>
+          <input id="name" name="name" type="text" autoComplete="name" placeholder={t.nameHint} required />
+          <label htmlFor="email">{t.email}</label>
+          <input id="email" name="email" type="email" autoComplete="email" placeholder={t.emailHint} required />
+          <label htmlFor="message">{t.message}</label>
+          <textarea id="message" name="message" rows={5} placeholder={t.messageHint} required />
+          <button type="submit" disabled>{t.send} <span aria-hidden="true">↗</span></button>
+          <p className={styles.formNote}>{t.formNote}</p>
+        </form>
       </section>
-
-      <footer className={styles.footer}>
-        <p>IHA Arts and Crafts</p>
-        <p>Oslo · Org.nr. 838 750 702</p>
-        <a href="#top">Til toppen ↑</a>
-      </footer>
+      <section className={styles.location} aria-labelledby="location-title">
+        <div><p className={styles.label}>{t.businessAddress}</p><h2 id="location-title">{t.findUs}.</h2></div>
+        <address>Jegerveien 4B<br />0777 Oslo, Norge</address>
+        <a href={directionsUrl} target="_blank" rel="noopener noreferrer">{t.directions} ↗</a>
+      </section>
+      <footer className={styles.footer}><p>IHA Arts and Crafts</p><p>Oslo · {t.org} 838 750 702</p><a href={sections.top}>{t.backToTop} ↑</a></footer>
     </main>
   );
 }
