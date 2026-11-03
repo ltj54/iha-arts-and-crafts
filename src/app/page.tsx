@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 const contactEmail = "iha.amaza@gmail.com";
+const contactPhone = "+47 938 73 400";
 const directionsUrl = "https://www.google.com/maps/dir/?api=1&destination=Jegerveien%204B%2C%200777%20Oslo%2C%20Norway";
 const sections = {
   top: "#top",
@@ -21,11 +22,12 @@ const copy = {
     painting: "Maleri", sculpture: "Treskulptur", photosSoon: "Bilder kommer",
     aboutText: "IHA Arts and Crafts er et enkeltpersonforetak drevet av Hamisi Kaingu Iha. Virksomheten omfatter malekunst og kjøp og salg av treskulpturer.",
     writeTo: "Skriv til", contactText: "Spør om maleri, treskulpturer eller IHA Arts and Crafts.",
+    call: "Ring Hamisi",
     form: "Meldingsskjema", yourMessage: "Din melding", name: "Navn", nameHint: "Hva heter du?", email: "E-post", emailHint: "din@epost.no",
     message: "Melding", messageHint: "Skriv meldingen din her …", send: "Send melding",
     formNote: "Skjemaet åpnes for innsending når kontakttjenesten er klar. Bruk e-postadressen ved siden av i mellomtiden.",
     org: "Org.nr.", backToTop: "Til toppen",
-    findUs: "Finn fram", businessAddress: "Forretningsadresse", directions: "Åpne veibeskrivelse i Google Maps",
+    findUs: "Finn fram", businessAddress: "Adresse", directions: "Åpne veibeskrivelse i Google Maps",
   },
   en: {
     preview: "Website in progress · Artwork will appear after approval",
@@ -36,11 +38,12 @@ const copy = {
     painting: "Painting", sculpture: "Wood sculpture", photosSoon: "Photos to come",
     aboutText: "IHA Arts and Crafts is a sole proprietorship run by Hamisi Kaingu Iha. Its activities are painting and the buying and selling of wood sculptures.",
     writeTo: "Write to", contactText: "Ask about paintings, wood sculptures or IHA Arts and Crafts.",
+    call: "Call Hamisi",
     form: "Contact form", yourMessage: "Your message", name: "Name", nameHint: "Your name", email: "Email", emailHint: "you@example.com",
     message: "Message", messageHint: "Write your message here …", send: "Send message",
     formNote: "The form will accept messages once the contact service is ready. You can use the email address alongside it for now.",
     org: "Org. no.", backToTop: "Back to top",
-    findUs: "Find us", businessAddress: "Business address", directions: "Open directions in Google Maps",
+    findUs: "Find us", businessAddress: "Address", directions: "Open directions in Google Maps",
   },
 } as const;
 
@@ -58,7 +61,7 @@ export default function Home() {
       <header className={styles.header}>
         <a className={styles.brand} href={sections.top} aria-label={t.top}>IHA<span>.</span><small>Arts and<br />Crafts</small></a>
         <div className={styles.headerActions}>
-          <nav aria-label={t.menu}><a href={sections.works}>{t.works}</a><a href={sections.about}>{t.about}</a><a href={sections.contact}>{t.contact} ↗</a></nav>
+          <nav aria-label={t.menu}><a href={sections.works}>{t.works}</a><a href={sections.about}>{t.about}</a><a href={sections.contact}>{t.contact}</a></nav>
           <fieldset className={styles.language}>
             <legend className={styles.visuallyHidden}>Language / Språk</legend>
             <button type="button" onClick={() => setLanguage("no")} aria-pressed={language === "no"}>NO</button>
@@ -73,7 +76,7 @@ export default function Home() {
         <h1 id="hero-title">{t.heroFirst}<br /><em>{t.heroSecond}</em>{t.heroThird}</h1>
         <div className={styles.heroBottom}>
           <p>{t.intro}</p>
-          <a href={sections.works}>{t.toWorks} ↘</a>
+          <a href={sections.works}>{t.toWorks}</a>
         </div>
         <div className={styles.stamp} aria-hidden="true">IHA<br />A&amp;C</div>
       </section>
@@ -86,7 +89,7 @@ export default function Home() {
         </div>
         <div className={styles.slots}>
           <div className={styles.slot}><span aria-hidden="true">✳</span><div><h3>{t.painting}</h3><p>{t.photosSoon}</p></div></div>
-          <div className={styles.slot}><span aria-hidden="true">↗</span><div><h3>{t.sculpture}</h3><p>{t.photosSoon}</p></div></div>
+          <div className={styles.slot}><span aria-hidden="true">●</span><div><h3>{t.sculpture}</h3><p>{t.photosSoon}</p></div></div>
         </div>
       </section>
 
@@ -102,26 +105,27 @@ export default function Home() {
           <p className={styles.label}>{t.contact}</p>
           <h2 id="contact-title">{t.writeTo}<br /><em>Hamisi.</em></h2>
           <p>{t.contactText}</p>
-          <a href={`mailto:${contactEmail}`}>{contactEmail} ↗</a>
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+          <a className={styles.phoneLink} href="tel:+4793873400">{t.call}: {contactPhone}</a>
         </div>
         <form className={styles.form} aria-label={t.form}>
-          <div className={styles.formHead}><span>{t.yourMessage}</span><span>↘</span></div>
+          <div className={styles.formHead}><span>{t.yourMessage}</span></div>
           <label htmlFor="name">{t.name}</label>
           <input id="name" name="name" type="text" autoComplete="name" placeholder={t.nameHint} required />
           <label htmlFor="email">{t.email}</label>
           <input id="email" name="email" type="email" autoComplete="email" placeholder={t.emailHint} required />
           <label htmlFor="message">{t.message}</label>
           <textarea id="message" name="message" rows={5} placeholder={t.messageHint} required />
-          <button type="submit" disabled>{t.send} <span aria-hidden="true">↗</span></button>
+          <button type="submit" disabled>{t.send}</button>
           <p className={styles.formNote}>{t.formNote}</p>
         </form>
       </section>
       <section className={styles.location} aria-labelledby="location-title">
         <div><p className={styles.label}>{t.businessAddress}</p><h2 id="location-title">{t.findUs}.</h2></div>
         <address>Jegerveien 4B<br />0777 Oslo, Norge</address>
-        <a href={directionsUrl} target="_blank" rel="noopener noreferrer">{t.directions} ↗</a>
+        <a href={directionsUrl} target="_blank" rel="noopener noreferrer">{t.directions}</a>
       </section>
-      <footer className={styles.footer}><p>IHA Arts and Crafts</p><p>Oslo · {t.org} 838 750 702</p><a href={sections.top}>{t.backToTop} ↑</a></footer>
+      <footer className={styles.footer}><p>IHA Arts and Crafts</p><p>Oslo · {t.org} 838 750 702</p><a href={sections.top}>{t.backToTop}</a></footer>
     </main>
   );
 }

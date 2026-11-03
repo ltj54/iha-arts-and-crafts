@@ -39,6 +39,7 @@
 .contact h2 { margin: 3rem 0; font-size: clamp(3.8rem, 6vw, 7rem); }
 .contactIntro > p:nth-last-child(2) { max-width: 28rem; font-family: Georgia, serif; font-size: 1.3rem; line-height: 1.5; }
 .contactIntro > a { display: inline-block; margin-top: 2rem; border-bottom: 1px solid; padding-bottom: .4rem; font-weight: 700; }
+.contactIntro > .phoneLink { display: block; width: fit-content; margin-top: 1rem; }
 .form { padding: clamp(1.5rem, 3vw, 3rem); background: var(--paper-light); color: var(--ink); display: flex; flex-direction: column; }
 .formHead { display: flex; justify-content: space-between; padding-bottom: 2.5rem; font-family: Georgia, serif; font-size: 2rem; }
 .form label { margin: 1.2rem 0 .4rem; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
